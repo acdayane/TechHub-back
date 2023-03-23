@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Comments {
+  id          Int        @id(map: "Comments_pk") @default(autoincrement())
+  content     String
+  userId      Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Users       Users      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_fk0")
+}
+
+model Courses {
+  id               Int           @id(map: "Courses_pk") @default(autoincrement())
+  nameId           Int           
+  description      String
+  durationInMonths Int
+  durationInHours  Int
+  minTuitionFee    Int
+  maxTuitionFee    Int
+  msc              Boolean
+  schoolId         Int
+  typeId           Int
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  Schools          Schools       @relation(fields: [schoolId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Courses_fk0")
+  Types            Types         @relation(fields: [typeId], references: [id])
+  Names            Names         @relation(fields: [nameId], references: [id])
+  TechCourses      TechCourses[]
+}
+
+model Names {
+  id          Int           @id(map: "Names_pk") @default(autoincrement())
+  name        String        @unique @db.VarChar(255)
+  Courses     Courses[]
+}
+
+model Schools {
+  id         Int         @id(map: "Schools_pk") @default(autoincrement())
+  name       String      @unique @db.VarChar(255)
+  website    String    
+  image      String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Courses    Courses[]
+  Users      Users[]
+}
+
+model TechCourses {
+  id             Int          @id(map: "TechCourses_pk") @default(autoincrement())
+  technologyId   Int          
+  courseId       Int          
+  Technologies   Technologies @relation(fields: [technologyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "TechCourses_fk0")
+  Courses        Courses      @relation(fields: [courseId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "TechCourses_fk1")
+}
+
+model Technologies {
+  id          Int           @id(map: "Technologies_pk") @default(autoincrement())
+  name        String        @unique @db.VarChar(255)
+  TechCourses TechCourses[]
+}
+
+model Types {
+  id          Int           @id(map: "Types_pk") @default(autoincrement())
+  name        String        @unique @db.VarChar(255)
+  Courses     Courses[]
+}
+
+model Users {
+  id          Int        @id(map: "Users_pk") @default(autoincrement())
+  name        String     @db.VarChar(255)
+  email       String     @unique @db.VarChar(255)
+  password    String     @db.VarChar(6)
+  schoolId    Int
+  Comments    Comments[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Schools     Schools    @relation(fields: [schoolId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Users_fk0")
+}
