@@ -1,4 +1,4 @@
-import { Courses, Schools } from "@prisma/client";
+import { Courses } from "@prisma/client";
 import coursesRepository from "../repositories/coursesRepositories";
 
 async function listCourses(): Promise<Courses[]> {

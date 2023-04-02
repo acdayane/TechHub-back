@@ -12,8 +12,13 @@ async function findTechnology(technologyId: number) {
     });
 };
 
+async function findTechnologies() {
+    return prisma.technologies.findMany({});
+};
+
 const technologiesRepository = {
     findTechnology,
+    findTechnologies
 }
 
 export default technologiesRepository;

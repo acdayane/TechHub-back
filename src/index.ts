@@ -15,6 +15,6 @@ app.use(coursesRouter)
 app.use(schoolsRouter)
 app.use(technologiesRouter);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => console.log(`Serving running on port ${port}`));

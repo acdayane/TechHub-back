@@ -63,6 +63,7 @@ model TechCourses {
 model Technologies {
   id          Int           @id(map: "Technologies_pk") @default(autoincrement())
   name        String        @unique @db.VarChar(255)
+  image       String
   TechCourses TechCourses[]
 }
 

@@ -1,4 +1,4 @@
-import { Schools, TechCourses } from "@prisma/client";
+import { TechCourses, Technologies } from "@prisma/client";
 import technologiesRepository from "../repositories/technologiesRepositories";
 
 async function technologyById(technologyId: number): Promise<TechCourses[]> {
@@ -11,8 +11,19 @@ async function technologyById(technologyId: number): Promise<TechCourses[]> {
     return technology;
 }
 
+async function technologiesList(): Promise<Technologies[]> {
+    const technologies = await technologiesRepository.findTechnologies();
+   
+    if (!technologies) {
+        console.log('oie courseById')
+    };
+
+    return technologies;
+}
+
 const technologiesServices = {
     technologyById,
+    technologiesList
 }
 
 export default technologiesServices;

@@ -4,7 +4,7 @@ async function findCourses() {
     return prisma.courses.findMany({
         include: {
             Schools: true
-        }
+        },
     });
 };
 
@@ -15,6 +15,7 @@ async function findCourse(courseId: number) {
         },
         include: {
             Schools: true,
+            Types: true,
             TechCourses: {
                 where: {
                     courseId: courseId

@@ -5,6 +5,11 @@ async function findSchools() {
         include: {
             Courses: {
                 select: {
+                    Types: {
+                        select: {
+                            name: true
+                        }
+                    },
                     Names: {
                         select: {
                             name: true
