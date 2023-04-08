@@ -1,23 +1,39 @@
 import prisma from "../config/database";
 
-async function findTechnology(technologyId: number) {
+async function findCourseByTechnology(technologyId: number) {
     return prisma.techCourses.findMany({
         where: {
             technologyId,
         },
         include: {
-            Technologies: true,
-            Courses: true
-        }        
+            Courses: {
+                select: {
+                    Names: true,
+                    Types: true,
+                    Schools: true
+                }
+            },
+            Technologies: {
+                select: {
+                    name: true
+                }
+            },
+        },    
     });
 };
 
 async function findTechnologies() {
-    return prisma.technologies.findMany({});
+    return prisma.technologies.findMany({
+        orderBy: [
+            {
+              name: 'asc',
+            },
+        ]
+    });
 };
 
 const technologiesRepository = {
-    findTechnology,
+    findCourseByTechnology,
     findTechnologies
 }
 

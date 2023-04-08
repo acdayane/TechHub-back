@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import coursesRouter from "./routers/coursesRouters";
 import schoolsRouter from "./routers/schoolsRouters";
 import technologiesRouter from "./routers/technologiesRouters";
+import usersRouter from "./routers/usersRouters ";
+//import commentsRouter from "./routers/commentsRouters";
 
 dotenv.config();
 
@@ -13,7 +15,9 @@ app.use(express.json());
 
 app.use(coursesRouter)
 app.use(schoolsRouter)
-app.use(technologiesRouter);
+app.use(technologiesRouter)
+app.use(usersRouter)
+//app.use(commentsRouter);
 
 const port = process.env.PORT || 4000;
 

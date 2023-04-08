@@ -2,7 +2,7 @@ import { TechCourses, Technologies } from "@prisma/client";
 import technologiesRepository from "../repositories/technologiesRepositories";
 
 async function technologyById(technologyId: number): Promise<TechCourses[]> {
-    const technology = await technologiesRepository.findTechnology(technologyId);
+    const technology = await technologiesRepository.findCourseByTechnology(technologyId);
    
     if (!technology) {
         console.log('oie courseById')
