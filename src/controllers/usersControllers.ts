@@ -32,6 +32,7 @@ export async function signIn(req: Request, res: Response) {
 
     try {
         const token = await usersServices.signInService(email, password);
+        
         res.status(httpStatus.OK).send(token);
 
     } catch (err) {

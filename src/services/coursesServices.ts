@@ -1,12 +1,11 @@
 import { Courses } from "@prisma/client";
+import httpStatus from "http-status";
 import coursesRepository from "../repositories/coursesRepositories";
 
 async function listCourses(): Promise<Courses[]> {
-    const coursesList = await coursesRepository.findCourses();
-   
-    if (!coursesList) {
-        console.log('oie listCourses')
-    };
+    const coursesList = await coursesRepository.findCourses();   
+    
+    if (!coursesList) throw httpStatus.NOT_FOUND;
 
     return coursesList;
 }
@@ -14,9 +13,7 @@ async function listCourses(): Promise<Courses[]> {
 async function courseById(courseId: number): Promise<Courses> {
     const course = await coursesRepository.findCourse(courseId);
    
-    if (!course) {
-        console.log('oie courseById')
-    };
+    if (!course) throw httpStatus.NOT_FOUND;
 
     return course;
 }
