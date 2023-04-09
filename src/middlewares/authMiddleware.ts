@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
 import jwt from "jsonwebtoken";
-import usersRepository from "repositories/usersRepositories.js";
+import usersRepository from "../repositories/usersRepositories";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
-    let userId;
-  
+    let userId: number;
+
     try {
       if (!token) {  
         return res.status(httpStatus.UNAUTHORIZED).send({ message: "Token not found" });
@@ -27,7 +27,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
           return res.status(httpStatus.UNAUTHORIZED).send({message: "User doesn't exist"});
       };
 
-      res.locals.userToken = {userId};
+      res.locals.id = userId;
 
       next();
 

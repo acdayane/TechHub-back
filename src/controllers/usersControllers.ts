@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import usersServices from "../services/usersServices";
 import httpStatus from "http-status";
-import bcrypt from "bcrypt";
 import { userSchema } from "../models/userScheema";
-import jwt from "jsonwebtoken";
 
 export async function signUp(req: Request, res: Response) {
-    let { name, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     try {
         const { error } = userSchema.validate(req.body, { abortEarly: false });
@@ -15,9 +13,7 @@ export async function signUp(req: Request, res: Response) {
             return res.status(httpStatus.UNPROCESSABLE_ENTITY).send({message: err});
         }
 
-        const hashedPassword = await bcrypt.hash(password, 2);
-
-        await usersServices.signUpService(name, email, hashedPassword);   
+        await usersServices.signUpService(name, email, password);   
    
         return res.sendStatus(httpStatus.CREATED);
 
@@ -31,27 +27,23 @@ export async function signUp(req: Request, res: Response) {
     }
 };
 
-export async function signIn(req: Request, res: Response) {
-    //let { userId } = res.locals.userToken;
-    
+export async function signIn(req: Request, res: Response) {   
     const { email, password } = req.body;
 
     try {
-        const checkEmail = await usersServices.signInService(email);
-        if (!checkEmail) {
-            return res.sendStatus(httpStatus.NOT_FOUND);
-        };
-       
-        const checkPassword = bcrypt.compareSync(password, checkEmail.password);
-        if (!checkPassword) {
-            return res.sendStatus(httpStatus.UNAUTHORIZED);
-        };
-
-        const token = jwt.sign({ id: checkEmail.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
-
+        const token = await usersServices.signInService(email, password);
         res.status(httpStatus.OK).send(token);
 
     } catch (err) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+        if (err == httpStatus.NOT_FOUND) {
+            return res.status(httpStatus.FOUND).send({message: "E-mail does not exist"});
+        }
+
+        if (err == httpStatus.UNAUTHORIZED) {
+            return res.status(httpStatus.UNAUTHORIZED).send({message: "Check your password"});
+        }
+
+        console.log(err);
+        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     };
 };

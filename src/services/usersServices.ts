@@ -1,18 +1,27 @@
 import httpStatus from "http-status";
 import usersRepository from "../repositories/usersRepositories";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 async function signUpService(name: string, email: string, password: string) {
     const emailExist = await usersRepository.checkEmail(email);
     if (emailExist) throw httpStatus.CONFLICT;
 
-    await usersRepository.createUser(name, email, password);
+    const hashedPassword: string = await bcrypt.hash(password, 4);
+
+    await usersRepository.createUser(name, email, hashedPassword);
 }
 
-async function signInService(email: string) {
+async function signInService(email: string, password: string) {
     const emailExist = await usersRepository.checkEmail(email);
     if (!emailExist) throw httpStatus.NOT_FOUND;
 
-    return emailExist;
+    const checkPassword = bcrypt.compareSync(password, emailExist.password);
+    if (!checkPassword) throw httpStatus.UNAUTHORIZED;
+
+    const token = jwt.sign({ id: emailExist.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+
+    return token;
 }
 
 const usersServices = {

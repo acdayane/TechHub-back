@@ -1,11 +1,11 @@
 import prisma from "../config/database";
 
-async function createUser(name: string, email: string, password: string) {
+async function createUser(name: string, email: string, hashedPassword: string) {
     return prisma.users.create({
         data: {
             name,
             email,
-            password
+            password: hashedPassword
         }
     });
 };

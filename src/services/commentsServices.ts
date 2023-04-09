@@ -1,29 +1,32 @@
-import { Schools } from "@prisma/client";
-import schoolsRepository from "../repositories/schoolsRepositories";
+import { Comments } from "@prisma/client";
+import httpStatus from "http-status";
+import coursesRepository from "../repositories/coursesRepositories";
+import commentsRepository from "../repositories/commentsRepositories";
 
-async function listSchools(): Promise<Schools[]> {
-    const schoolsList = await schoolsRepository.findSchools();
-   
-    if (!schoolsList) {
-        console.log('oie listCourses')
-    };
-
-    return schoolsList;
+async function newComment(content: string, courseId: number, userId: number) {
+    await commentsRepository.createComment(content, courseId, userId);
 }
 
-async function schoolById(schoolId: number): Promise<Schools> {
-    const school = await schoolsRepository.findSchool(schoolId);
-   
-    if (!school) {
-        console.log('oie courseById')
-    };
+async function deleteCommentService(userId: number, commentId: number) {
+    const checkAuthor = await commentsRepository.checkAuthor(userId, commentId);
+    if (!checkAuthor) throw httpStatus.UNAUTHORIZED;
 
-    return school;
+    await commentsRepository.deleteCommentRepository(commentId);
 }
 
-const schoolsServices = {
-    listSchools,
-    schoolById,
+async function commentsByCourseId(courseId:number): Promise<Comments[]> {
+    const checkCourse = await coursesRepository.findCourse(courseId);
+    if (!checkCourse) throw httpStatus.NOT_FOUND;
+
+    const commentsList = await commentsRepository.findComments(courseId);
+
+    return commentsList;
 }
 
-export default schoolsServices;
+const commentsServices = {
+    newComment,
+    deleteCommentService,
+    commentsByCourseId
+}
+
+export default commentsServices;

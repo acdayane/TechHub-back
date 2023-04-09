@@ -1,7 +1,7 @@
 import prisma from "../config/database";
 
-async function createComment({content: string, userId: number, courseId: number }) {
-    return prisma.users.update({
+async function createComment(content: string, userId: number, courseId: number) {
+    return prisma.comments.create({
         data: {
             content,
             userId,
@@ -10,22 +10,36 @@ async function createComment({content: string, userId: number, courseId: number 
     });
 };
 
-async function updateComment({id: number, content: string, userId: number, courseId: number }) {
-    return prisma.users.update({
+async function deleteCommentRepository(commentId: number) {
+    return prisma.comments.delete({
         where: {
-            id,
-        }
-        data: {
-            content,
-            userId,
-            courseId,
+            id: commentId
         }
     });
+};
+
+async function checkAuthor(userId: number, commentId: number) {
+    return prisma.comments.findFirst({
+        where: {
+            id: commentId,
+            userId
+        }
+    });
+};
+
+async function findComments(courseId: number) {
+    return prisma.comments.findMany({
+        where: {
+            courseId
+        }
+    })
 };
 
 const commentsRepository = {
     createComment,
-    updateComment
-}
+    deleteCommentRepository,
+    findComments,
+    checkAuthor
+};
 
 export default commentsRepository;

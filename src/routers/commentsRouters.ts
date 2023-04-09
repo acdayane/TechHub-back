@@ -1,11 +1,12 @@
+import { postComment, deleteComment, getComments } from "../controllers/commentsControllers";
 import { Router } from "express";
-import { getCourses, getCourseById } from "../controllers/coursesControllers";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const commentsRouter = Router();
 
 commentsRouter
-    .post("/comment", newComment)
-    .delete("/comment/:id", deleteComment)
-    .get("/comment/:courseId", getComments)
+    .post("/comment/:courseId", authMiddleware, postComment)
+    .delete("/comment/:commentId", deleteComment)
+    .get("/comments/:courseId", getComments)
 
 export default commentsRouter;
