@@ -6,7 +6,7 @@ const commentsRouter = Router();
 
 commentsRouter
     .post("/comment/:courseId", authMiddleware, postComment)
-    .delete("/comment/:commentId", deleteComment)
+    .delete("/comment/:commentId", authMiddleware, deleteComment)
     .get("/comments/:courseId", getComments)
 
 export default commentsRouter;

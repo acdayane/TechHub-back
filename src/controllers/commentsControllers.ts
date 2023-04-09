@@ -13,7 +13,7 @@ export async function postComment(req: Request, res: Response) {
         courseId: courseId,
         userId: userId
     }
-
+console.log(comment)
     try {
         const { error } = commentSchema.validate(comment, { abortEarly: false });
         if (error) {
@@ -36,7 +36,7 @@ export async function postComment(req: Request, res: Response) {
 };
 
 export async function deleteComment(req: Request, res: Response) {
-    const { userId } = res.locals.userToken;
+    const userId = res.locals.id;
     const { commentId } = req.params;
 
     try {

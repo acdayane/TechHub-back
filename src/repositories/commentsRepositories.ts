@@ -4,8 +4,8 @@ async function createComment(content: string, userId: number, courseId: number) 
     return prisma.comments.create({
         data: {
             content,
-            userId,
             courseId,
+            userId,
         }
     });
 };
