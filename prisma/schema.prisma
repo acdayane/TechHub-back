@@ -79,7 +79,7 @@ model Users {
   id          Int        @id(map: "Users_pk") @default(autoincrement())
   name        String     @db.VarChar(255)
   email       String     @unique @db.VarChar(255)
-  password    String     @db.VarChar(6)
+  password    String     
   Comments    Comments[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

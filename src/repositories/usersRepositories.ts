@@ -18,9 +18,18 @@ async function checkEmail(email: string) {
     });
 };
 
+async function checkUserId(userId: number) {
+    return prisma.users.findFirst({
+        where: {
+            id: userId
+        }
+    });
+};
+
 const usersRepository = {
     createUser,
-    checkEmail
+    checkEmail,
+    checkUserId
 }
 
 export default usersRepository;

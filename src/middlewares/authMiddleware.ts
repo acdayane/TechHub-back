@@ -1,45 +1,37 @@
-
+import { Request, Response, NextFunction } from "express";
+import httpStatus from "http-status";
 import jwt from "jsonwebtoken";
-import { connection } from "../database/db.js";
+import usersRepository from "repositories/usersRepositories.js";
 
-export async function authMiddleware(req, res, next) {
-  const { authorization } = req.headers;
-  const token = authorization?.replace("Bearer ", "");
-  let id = 0;
-  let err;
+export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+    let userId;
+  
+    try {
+      if (!token) {  
+        return res.status(httpStatus.UNAUTHORIZED).send({ message: "Token not found" });
+      };
 
 
-  if (!token) {  
-    return res.status(401).send({ message: "Token not found!" });
-  };
+      jwt.verify(token, process.env.SECRET_JWT, (error, decoded) => {
+        if (error) {
+            return res.status(httpStatus.UNAUTHORIZED).send({ message: "Invalid token" });
+        } else {
+            userId = decoded.id;
+        };
+      });
 
-  jwt.verify(token, process.env.SECRET_JWT, (error, decoded) => {
-    if (error) {
-      err = error;
-    } else {
-      id = decoded.id;
-    }
-  });
+      const userExist = await usersRepository.checkUserId(userId);
+      if (!userExist) {
+          return res.status(httpStatus.UNAUTHORIZED).send({message: "User doesn't exist"});
+      };
 
-  if (err) {
+      res.locals.userToken = {userId};
 
-      return res.status(401).send({ message: "Invalid token!" });
-  };
+      next();
 
-  try {
-    const user = await connection.query(
-      `SELECT id FROM users WHERE users.id = '${id}'`
-    );
-
-    if (!user.rows[0]) {
-      return res.status(401).send({ message: "User not found!" });
-    }
-
-    req.user = user.rows[0];
-    next();
-
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(500);
-  }
-};
+    } catch(err) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }  
+}
