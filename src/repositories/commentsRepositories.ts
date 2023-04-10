@@ -1,12 +1,14 @@
 import prisma from "../config/database";
 
-async function createComment(content: string, userId: number, courseId: number) {
+async function createComment(content: string, courseId: number, userId: number) {
+    const data = {
+        content,
+        userId,
+        courseId
+    }
+
     return prisma.comments.create({
-        data: {
-            content,
-            courseId,
-            userId,
-        }
+        data
     });
 };
 
