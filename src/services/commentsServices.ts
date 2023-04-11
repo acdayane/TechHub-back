@@ -4,8 +4,7 @@ import coursesRepository from "../repositories/coursesRepositories";
 import commentsRepository from "../repositories/commentsRepositories";
 
 async function newComment(content: string, courseId: number, userId: number) {
-    const batata = await commentsRepository.createComment(content, courseId, userId);
-    console.log(batata)
+    await commentsRepository.createComment(content, courseId, userId);
 }
 
 async function deleteCommentService(userId: number, commentId: number) {

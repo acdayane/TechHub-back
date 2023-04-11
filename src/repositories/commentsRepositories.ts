@@ -1,14 +1,12 @@
 import prisma from "../config/database";
 
 async function createComment(content: string, courseId: number, userId: number) {
-    const data = {
-        content,
-        userId,
-        courseId
-    }
-
     return prisma.comments.create({
-        data
+        data: {
+            content: content,
+            userId: userId,
+            courseId: courseId            
+        }
     });
 };
 
@@ -34,7 +32,7 @@ async function findComments(courseId: number) {
         where: {
             courseId
         }
-    })
+    });
 };
 
 const commentsRepository = {

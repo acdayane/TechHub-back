@@ -13,7 +13,7 @@ export async function postComment(req: Request, res: Response) {
         courseId: courseId,
         userId: userId
     }
-console.log(comment)
+
     try {
         const { error } = commentSchema.validate(comment, { abortEarly: false });
         if (error) {
@@ -71,4 +71,3 @@ export async function getComments(req: Request, res: Response) {
         return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
 };
-
