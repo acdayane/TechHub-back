@@ -143,6 +143,8 @@ async function main() {
       { technologyId: 12, courseId: 3},
       { technologyId: 1, courseId: 4},
       { technologyId: 2, courseId: 4},
+      { technologyId: 3, courseId: 4},
+      { technologyId: 4, courseId: 4},
       { technologyId: 5, courseId: 4},
       { technologyId: 7, courseId: 4},
       { technologyId: 10, courseId: 4},

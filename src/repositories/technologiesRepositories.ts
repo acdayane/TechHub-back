@@ -7,11 +7,11 @@ async function findCourseByTechnology(technologyId: number) {
         },
         include: {
             Courses: {
-                select: {
+                include: {
                     Names: true,
                     Types: true,
-                    Schools: true
-                }
+                    Schools: true,
+                },
             },
             Technologies: {
                 select: {
