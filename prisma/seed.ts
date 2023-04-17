@@ -34,22 +34,22 @@ async function main() {
     data: [
       {
         nameId: 1,
-        description: 'Torne-se um Software Engineer em 9 meses sem pagar nada enquanto estuda. Nossa Formação é focada em empregabilidade de alto nível. Ou seja, montamos o nosso programa de mãos dadas com as nossas empresas parceiras para ensinar tudo o que você precisa para começar uma carreira de sucesso.',
+        description: 'Torne-se um Software Engineer em 9 meses sem pagar nada enquanto estuda. Nossa Formação é focada em empregabilidade de alto nível para ensinar tudo o que você precisa para começar uma carreira de sucesso.',
         durationInMonths: 9,
         durationInHours: 1450,
-        minTuitionFee: 1990000,
-        maxTuitionFee: 4000000,
+        minTuitionFee: 19900,
+        maxTuitionFee: 40000,
         msc: true,
         schoolId: 1,
         typeId: 1,         
       },
       {
         nameId: 1,
-        description: 'Temos o objetivo de ofertar ensino de qualidade para quem deseja trabalhar na área da tecnologia. Com o foco no aprendizado prático, ensina as principais linguagens de programação do mercado para o desenvolvimento de um programador full stack, inclusive soft skills. As aulas são online e ao vivo e contamos com suporte em tempo real.',
+        description: 'Temos o objetivo de ofertar ensino de qualidade para quem deseja trabalhar na área da tecnologia. Com o foco no aprendizado prático, ensina as principais linguagens de programação do mercado para o desenvolvimento de um programador full stack, inclusive soft skills.',
         durationInMonths: 12,
         durationInHours: 2000,
-        minTuitionFee: 1920000,
-        maxTuitionFee: 2400000,
+        minTuitionFee: 19200,
+        maxTuitionFee: 44000,
         msc: true,
         schoolId: 2,
         typeId: 1,         
@@ -59,8 +59,8 @@ async function main() {
         description: 'Na Labenu você aprende a programar, mas também aprende a como entrar, se manter e alcançar sucesso no mercado de trabalho de tecnologia. Para isso, concentramos o nosso ensino em 4 pilares: conhecimento técnico, soft skills, empregabilidade e network.',
         durationInMonths: 6,
         durationInHours: 1000,
-        minTuitionFee: 1260000,
-        maxTuitionFee: 2400000,
+        minTuitionFee: 12600,
+        maxTuitionFee: 24000,
         msc: true,
         schoolId: 3,
         typeId: 1,         
@@ -70,8 +70,8 @@ async function main() {
         description: 'Desenvolva sua carreira em uma das áreas mais requisitadas do momento e atue tanto como Front-End e Back-End dominando as principais habilidades do mercado.',
         durationInMonths: 8,
         durationInHours: 500,
-        minTuitionFee: 531050,
-        maxTuitionFee: 990000,
+        minTuitionFee: 5310,
+        maxTuitionFee: 9900,
         msc: false,
         schoolId: 4,
         typeId: 1,         
@@ -81,8 +81,8 @@ async function main() {
         description: 'O curso da Trybe é para você que não tem conhecimento na área de programação ou possui conhecimentos básicos e deseja aprofundar.',
         durationInMonths: 12,
         durationInHours: 1500,
-        minTuitionFee: 2000000,
-        maxTuitionFee: 4600000,
+        minTuitionFee: 20000,
+        maxTuitionFee: 46000,
         msc: true,
         schoolId: 5,
         typeId: 1,         
@@ -93,7 +93,7 @@ async function main() {
   await prisma.technologies.createMany({
     skipDuplicates: true,
     data: [
-      { name: 'HTML e CSS', image: "https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" }, //1
+      { name: 'HTML', image: "https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" }, //1
       { name: 'JavaScript', image: "https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" }, //2
       { name: 'Phyton', image: "https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" }, //3
       { name: 'PHP', image: "https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"}, //4

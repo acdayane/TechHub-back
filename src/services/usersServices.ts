@@ -21,7 +21,13 @@ async function signInService(email: string, password: string) {
 
     const token = jwt.sign({ id: emailExist.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
 
-    return token;
+    const userData = {
+        name: emailExist.name,
+        userId: emailExist.id,
+        token
+    }
+
+    return userData;
 }
 
 const usersServices = {

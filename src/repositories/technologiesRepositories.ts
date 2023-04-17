@@ -11,6 +11,15 @@ async function findCourseByTechnology(technologyId: number) {
                     Names: true,
                     Types: true,
                     Schools: true,
+                    TechCourses: {
+                        select: {
+                            Technologies: {
+                                select: {
+                                    name: true,
+                                }
+                            }
+                        }
+                    }
                 },
             },
             Technologies: {
