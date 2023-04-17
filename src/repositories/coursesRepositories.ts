@@ -10,6 +10,15 @@ async function findCourses() {
                 select: {
                     Technologies: true,
                 }
+            },
+            Comments: {
+                include: {
+                    Users: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
             }
         },
     });

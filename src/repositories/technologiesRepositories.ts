@@ -17,6 +17,17 @@ async function findCourseByTechnology(technologyId: number) {
                                 select: {
                                     name: true,
                                 }
+                            },
+                            
+
+                        }
+                    },
+                    Comments: {
+                        include: {
+                            Users: {
+                                select: {
+                                    name: true
+                                }
                             }
                         }
                     }
