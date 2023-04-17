@@ -12,15 +12,13 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
       if (!token) {  
         return res.status(httpStatus.UNAUTHORIZED).send({ message: "Token not found" });
       };
-
-
-      jwt.verify(token, process.env.SECRET_JWT, (error, decoded) => {
-        if (error) {
-            return res.status(httpStatus.UNAUTHORIZED).send({ message: "Invalid token" });
-        } else {
-            userId = decoded.id;
-        };
-      });
+      
+      try {
+        const result = jwt.verify(token, process.env.SECRET_JWT);
+        userId = result.id
+      } catch(err) {
+        return res.status(httpStatus.UNAUTHORIZED).send({message: "Invalid token"});
+      }
 
       const userExist = await usersRepository.checkUserId(userId);
       if (!userExist) {

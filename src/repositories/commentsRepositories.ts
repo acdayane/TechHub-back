@@ -31,6 +31,13 @@ async function findComments(courseId: number) {
     return prisma.comments.findMany({
         where: {
             courseId
+        },
+        include: {
+            Users: {
+                select: {
+                    name: true
+                }
+            }
         }
     });
 };
